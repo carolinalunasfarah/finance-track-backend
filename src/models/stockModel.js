@@ -24,3 +24,25 @@ export const saveStock = async (symbol, date, closePrice) => {
       throw new Error("Error saving stock data: " + error.message);
   }
 };
+
+
+export const getBySymbol = async (symbol) => {
+    try {
+        const query = "SELECT * FROM stocks WHERE symbol = $1";
+        const result = await pool.query(query, [symbol]);
+        return result.rows;
+    } catch (error) {
+        throw new Error("Error getting stock data by symbol: " + error.message);
+       
+    }
+};
+
+export const getAllSymbols = async () => {
+    try {
+        const query = "SELECT DISTINCT symbol FROM stocks";
+        const result = await pool.query(query);
+        return result.rows;
+    } catch (error) {
+        throw new Error("Error getting all stock symbols: " + error.message);
+    }
+};

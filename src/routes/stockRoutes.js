@@ -1,5 +1,7 @@
 import { Router } from "express";
 import {
+    getStockData,
+    getAllStocks,
     syncStockData,
     syncStockDataBySymbol,
     notFound,
@@ -7,6 +9,16 @@ import {
 import methodNotAllowed from "../middlewares/methodNotAllowed.js";
 
 const router = Router();
+
+router
+    .route("/stocks")
+    .get(getAllStocks)
+    .all(methodNotAllowed);
+
+router
+    .route("/stocks/:symbol")
+    .get(getStockData)
+    .all(methodNotAllowed);
 
 router
     .route("/sync")
