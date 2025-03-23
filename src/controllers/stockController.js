@@ -28,6 +28,24 @@ export const getAllStocks = async (req, res) => {
     }
 };
 
+const fetchHistoricalData = async (symbol, fromDate, toDate) => {
+    try {
+        const result = await yahooFinance.chart(symbol, {
+            period1: fromDate,
+            period2: toDate,
+            interval: "1d",
+        });
+
+        return result.quotes.map((quote) => ({
+            date: quote.date,
+            close: quote.close,
+        }));
+    } catch (error) {
+        console.error(`Error fetching chart data for ${symbol}:`, error);
+        return [];
+    }
+};
+
 export const syncStockData = async (req, res) => {
     const symbols = ["AAPL", "GOOGL", "MSFT", "AMZN", "ROKU"];
     try {
@@ -37,13 +55,13 @@ export const syncStockData = async (req, res) => {
         const formattedFromDate = fromDate.toISOString().split("T")[0];
 
         for (const symbol of symbols) {
-            const historicalData = await yahooFinance.historical(symbol, {
-                period1: formattedFromDate,
-                period2: toDate,
-                interval: "1d",
-            });
+            const historicalData = await fetchHistoricalData(
+                symbol,
+                formattedFromDate,
+                toDate
+            );
 
-            if (!historicalData || historicalData.length === 0) {
+            if (!historicalData.length) {
                 continue;
             }
 
@@ -52,7 +70,7 @@ export const syncStockData = async (req, res) => {
             }
         }
 
-        return res.json({ message: "Stock data synchronized successfully" });
+        return res.json({ message: "Stock data synchronized successfully", symbols });
     } catch (error) {
         console.error("Error syncing stock data:", error);
         return res.status(500).json({ error: "Error syncing stock data" });
@@ -68,13 +86,13 @@ export const syncStockDataBySymbol = async (req, res) => {
         fromDate.setFullYear(fromDate.getFullYear() - 1);
         const formattedFromDate = fromDate.toISOString().split("T")[0];
 
-        const historicalData = await yahooFinance.historical(symbol, {
-            period1: formattedFromDate,
-            period2: toDate,
-            interval: "1d",
-        });
+        const historicalData = await fetchHistoricalData(
+            symbol,
+            formattedFromDate,
+            toDate
+        );
 
-        if (!historicalData || historicalData.length === 0) {
+        if (!historicalData.length) {
             return res
                 .status(404)
                 .json({ message: "No data found from Yahoo Finance" });

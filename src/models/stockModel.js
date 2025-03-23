@@ -28,7 +28,7 @@ export const saveStock = async (symbol, date, closePrice) => {
 
 export const getBySymbol = async (symbol) => {
     try {
-        const query = "SELECT * FROM stocks WHERE symbol = $1";
+        const query = "SELECT * FROM stocks WHERE symbol = $1 ORDER BY date DESC";
         const result = await pool.query(query, [symbol]);
         return result.rows;
     } catch (error) {

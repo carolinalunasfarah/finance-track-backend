@@ -6,9 +6,11 @@ import { PORT } from "./config.js";
 
 const app = express();
 
+app.use(cors());
+
 app.use(express.json());
 app.use("/api", router);
-app.use(cors());
+
 
 app.listen(PORT, () => {
     console.log(`🔥 Server on 🔥 http://localhost:${PORT}`);
