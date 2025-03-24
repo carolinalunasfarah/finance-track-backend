@@ -1,3 +1,4 @@
+// db connection
 import { pool } from "../../database/connectionDB.js";
 
 export const saveStock = async (symbol, date, closePrice) => {

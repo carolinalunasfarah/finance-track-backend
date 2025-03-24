@@ -1,4 +1,7 @@
+// router
 import { Router } from "express";
+
+// controller
 import {
     getStockData,
     getAllStocks,
@@ -6,6 +9,8 @@ import {
     syncStockDataBySymbol,
     notFound,
 } from "../controllers/stockController.js";
+
+// middlewares
 import methodNotAllowed from "../middlewares/methodNotAllowed.js";
 
 const router = Router();
