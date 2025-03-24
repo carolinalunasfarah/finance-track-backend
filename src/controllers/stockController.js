@@ -1,7 +1,7 @@
 // model
 import { saveStock, getAllSymbols, getBySymbol } from "../models/stockModel.js";
 
-// framework
+// package
 import yahooFinance from "yahoo-finance2";
 
 export const getStockData = async (req, res) => {
