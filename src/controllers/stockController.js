@@ -47,7 +47,17 @@ const fetchHistoricalData = async (symbol, fromDate, toDate) => {
 };
 
 export const syncStockData = async (req, res) => {
-    const symbols = ["AAPL", "GOOGL", "MSFT", "AMZN", "ROKU"];
+    const symbols = [
+        "AAPL",
+        "GOOGL",
+        "MSFT",
+        "AMZN",
+        "KO",
+        "META",
+        "NVDA",
+        "ROKU",
+        "JNJ",
+    ];
     try {
         const toDate = new Date().toISOString().split("T")[0];
         const fromDate = new Date();
@@ -70,7 +80,10 @@ export const syncStockData = async (req, res) => {
             }
         }
 
-        return res.json({ message: "Stock data synchronized successfully", symbols });
+        return res.json({
+            message: "Stock data synchronized successfully",
+            symbols,
+        });
     } catch (error) {
         console.error("Error syncing stock data:", error);
         return res.status(500).json({ error: "Error syncing stock data" });
