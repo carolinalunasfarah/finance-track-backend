@@ -6,7 +6,7 @@ Este backend proporciona una API para gestionar datos de acciones financieras, p
 
 La aplicación sigue una arquitectura basada en **Cliente - Servidor**, donde:
 
--   **Backend** (Servidor - API RESTful): Sigue patrón MVC internamente  
+-   **Backend** (Servidor - API REST): Sigue patrón MVC internamente  
 -   **Frontend** (Cliente - SPA en React): Consume API del backend y gestiona UI
 
 ## ⚙ Tecnologías utilizadas 
